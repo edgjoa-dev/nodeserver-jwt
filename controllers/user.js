@@ -76,10 +76,13 @@ const patchUser = (req, res = response) => {
 const deleteUser = async (req, res = response) => {
 
     const { id } = req.params;
-    //const user = await User.findByIdAndUpdate(id, { state: false });
-    const user = await User.findByIdAndDelete(id);
 
-    res.json( user );
+    const usuario = await User.findByIdAndUpdate(id, { state: false });
+    //const user = await User.findByIdAndDelete(id);
+    const ususarioAutenticado = req.usuario;
+
+
+    res.json( { usuario, ususarioAutenticado } );
 }
 
 
