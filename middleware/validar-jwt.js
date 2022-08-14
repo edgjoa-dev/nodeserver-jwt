@@ -6,7 +6,7 @@ const Usuario = require('../models/user');
 
 const validarJWT = async(req = request, res = response, next) => {
 
-const token = req.header('x-token');
+const token = req.header('validate-token');
     if(!token){
         return res.status(401).json({
             msg: 'No hay token'
@@ -17,10 +17,12 @@ const token = req.header('x-token');
 
         const { uid, role } = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await Usuario.findById(uid);
+        const usuario = await Usuario.findById(uid);
+
+        req.usuario = usuario;
 
 
-        req.uid = user;
+
         next();
 
     } catch (error) {
