@@ -3,11 +3,13 @@ const { check } = require('express-validator');
 
 const {userGet, postUser, putUser, deleteUser } = require('../controllers/user');
 
-const { validarCampos } = require('../middleware/validar-campos');
-const { validarJWT } = require('../middleware/validar-jwt');
-const { adminRole } = require('../middleware/validar-roles');
+
 
 const { isRoleValid, emailExist, existUserId } = require('../helpers/db-validators');
+const { validarCampos } = require('../middleware/validar-campos');
+const { validarJWT } = require('../middleware/validar-jwt');
+const { tieneRole, adminRole } = require('../middleware/validar-roles');
+
 
 
 const router = Router();
@@ -35,7 +37,8 @@ router.post('/',[
 
 router.delete('/:id',[
     validarJWT,
-    adminRole,
+    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE'),
+    //adminRole, No se puede borrar un usuario si no es admin
     check('id', 'No es es un Id válido').isMongoId(),
     check('id').custom(existUserId),
     validarCampos
