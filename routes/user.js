@@ -32,9 +32,6 @@ router.post('/',[
 ],postUser)
 
 
-router.patch('/', patchUser)
-
-
 router.delete('/:id',[
     validarJWT,
     check('id', 'No es es un Id válido').isMongoId(),
