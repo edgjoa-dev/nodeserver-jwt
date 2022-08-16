@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
+const { response } = require('express')
 
-
-const validarCampos = (req, res, next) => {
+const validarCampos = (req, res = response, next) => {
 
     const errors = validationResult(req);
 
